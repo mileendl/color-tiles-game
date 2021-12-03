@@ -25,6 +25,7 @@ import java.util.List;
 
 public class TilesView extends View {
 
+    //удалить неиспользуемое
     final int PAUSE_LENGTH = 1;
     int displayWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     int openedCards = 0;
@@ -55,7 +56,6 @@ public class TilesView extends View {
     public TilesView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         setColorsAndTiles();
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -69,14 +69,12 @@ public class TilesView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
         int x = (int) event.getX();
         int y = (int) event.getY();
         //      Log.d("myTag", "onTouchEvent: " + cards.get(3).color);
         if (event.getAction() == MotionEvent.ACTION_DOWN && !isOnPauseNow) {
             for (Card c : cards) {
                 if (c.changeColor(x, y)) {
-
                     if (c.color == colors.get(0)) {
                         nextColor = 1;
                     }
@@ -94,15 +92,9 @@ public class TilesView extends View {
                     PauseTask task = new PauseTask();
                     task.execute();
                     return true;
-
-
                 }
             }
-
-
         }
-
-
         invalidate();
         return true;
     }
@@ -119,6 +111,7 @@ public class TilesView extends View {
         protected void onPostExecute(Void aVoid) {
             firstCard = cards.get(0);
             for (int i = 0; i < cards.size(); i++) {
+                //if возможно заменить на switch
                 if (cards.get(i).color == firstCard.color) counter++;
                 if (cards.get(i).color == colors.get(0)) redCount ++;
                 if (cards.get(i).color == colors.get(1)) greenCount ++;
@@ -133,7 +126,6 @@ public class TilesView extends View {
             }
             counter = 0;
         }
-
     }
 
 
@@ -159,7 +151,6 @@ public class TilesView extends View {
                 tmpX = tmpWidth / 3;
                 tmpY += tmpWidth + tmpWidth / 10;
             }
-
         }
         tmpWidth = displayWidth / 5;
         tmpHeight = displayWidth / 5;
@@ -169,7 +160,6 @@ public class TilesView extends View {
 
 
     public void newGame() {
-
         cards.clear();
         setColorsAndTiles();
         invalidate();
@@ -177,10 +167,11 @@ public class TilesView extends View {
 
     public void redrawLine(int currentIndex) {
         ArrayList<Integer> nextIndexes = new ArrayList<>();
+        //должен быть более эффективный алгоритм
+        //добавть else чтобы исключить излишнюю проверку условий
         if (currentIndex == 0) {
             nextIndexes.add(currentIndex + 1);
             nextIndexes.add(currentIndex + 4);
-
         }
 
         if (currentIndex > 0 && currentIndex < 3) {
@@ -198,7 +189,6 @@ public class TilesView extends View {
         if (currentIndex == 3) {
             nextIndexes.add(currentIndex - 1);
             nextIndexes.add(currentIndex + 4);
-
         }
 
         if (currentIndex > 4 && currentIndex < 7 || currentIndex > 8 && currentIndex < 11) {
@@ -223,13 +213,11 @@ public class TilesView extends View {
         if (currentIndex == 12) {
             nextIndexes.add(currentIndex + 1);
             nextIndexes.add(currentIndex - 4);
-
         }
 
         if (currentIndex == 15) {
             nextIndexes.add(currentIndex - 1);
             nextIndexes.add(currentIndex - 4);
-
         }
 
         for (Integer n : nextIndexes) {
@@ -244,8 +232,6 @@ public class TilesView extends View {
             }
             cards.get(n).color = colors.get(nextColor);
         }
-
         nextIndexes.clear();
     }
-
 }

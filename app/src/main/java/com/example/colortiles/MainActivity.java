@@ -14,9 +14,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     Button button;
-
     TilesView view;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,13 +22,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         button = findViewById(R.id.shuffle);
         view = findViewById(R.id.tilesView);
-
-
     }
 
     public void onClick(View v) {
         view.newGame();
     }
-
-
 }

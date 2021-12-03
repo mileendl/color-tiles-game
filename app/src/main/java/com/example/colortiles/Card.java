@@ -16,7 +16,6 @@ public class Card {
 
     Paint p = new Paint();
 
-
     public Card(float x, float y, float width, float height, int color) {
         this.color = color;
         this.x = x;
@@ -24,7 +23,7 @@ public class Card {
         this.width = width;
         this.height = height;
     }
-
+//удалить неиспользуемое
     int color;
     float x, y, width, height;
     int nextColor = 0;
@@ -32,7 +31,7 @@ public class Card {
             R.color.tileColorR, R.color.tileColorG,
             R.color.tileColorB);
 
-
+//заменить if else
     public boolean changeColor(float touchX, float touchY) {
         if (touchX >= x && touchX <= x + width && touchY >= y && touchY <= y + height) {
             return true;
@@ -41,6 +40,7 @@ public class Card {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void draw(Canvas c) {
+//удалить неиспользуемое
         //нарисовать карту в виде прямоугольника
 
         //p.setColor(colors.get(0));
