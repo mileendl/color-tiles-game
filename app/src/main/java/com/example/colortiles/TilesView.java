@@ -22,18 +22,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-
 public class TilesView extends View {
 
-    //удалить неиспользуемое
-    final int PAUSE_LENGTH = 1;
     int displayWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    int openedCards = 0;
 
-    float tmpWidth = displayWidth / 5;
-    float tmpHeight = displayWidth / 5;
-    float tmpX = tmpWidth / 3;
-    float tmpY = tmpWidth / 3;
+    double tmpWidth = displayWidth/5.0;
+    double tmpHeight = displayWidth/5.0;
+    double tmpX = tmpWidth/3;
+    double tmpY = tmpWidth/3;
 
     ArrayList<Card> cards = new ArrayList<>();
     List<Integer> colors;
@@ -71,7 +67,6 @@ public class TilesView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         int x = (int) event.getX();
         int y = (int) event.getY();
-        //      Log.d("myTag", "onTouchEvent: " + cards.get(3).color);
         if (event.getAction() == MotionEvent.ACTION_DOWN && !isOnPauseNow) {
             for (Card c : cards) {
                 if (c.changeColor(x, y)) {
@@ -106,18 +101,15 @@ public class TilesView extends View {
             return null;
         }
 
-
         @Override
         protected void onPostExecute(Void aVoid) {
             firstCard = cards.get(0);
             for (int i = 0; i < cards.size(); i++) {
-                //if возможно заменить на switch
                 if (cards.get(i).color == firstCard.color) counter++;
                 if (cards.get(i).color == colors.get(0)) redCount ++;
-                if (cards.get(i).color == colors.get(1)) greenCount ++;
-                if (cards.get(i).color == colors.get(2)) blueCount ++;
+                else if (cards.get(i).color == colors.get(1)) greenCount ++;
+                else if (cards.get(i).color == colors.get(2)) blueCount ++;
             }
-            Log.d("myTag", "onPostExecute: " + counter);
             if (counter == 16) {
                 Toast toast = Toast.makeText(getContext(),
                         "Победа!", Toast.LENGTH_SHORT);
@@ -128,13 +120,10 @@ public class TilesView extends View {
         }
     }
 
-
     public void setColorsAndTiles() {
         colors = Arrays.asList(
                 getResources().getColor(R.color.tileColorR), getResources().getColor(R.color.tileColorG),
                 getResources().getColor(R.color.tileColorB));
-
-
         Collections.shuffle(colors);
         int cnt = 0;
         for (int i = 0; i < 16; i++) {
@@ -152,10 +141,10 @@ public class TilesView extends View {
                 tmpY += tmpWidth + tmpWidth / 10;
             }
         }
-        tmpWidth = displayWidth / 5;
-        tmpHeight = displayWidth / 5;
-        tmpX = tmpWidth / 3;
-        tmpY = tmpWidth / 3;
+        tmpWidth = displayWidth/5.0;
+        tmpHeight = displayWidth/5.0;
+        tmpX = tmpWidth/3;
+        tmpY = tmpWidth/3;
     }
 
 
@@ -167,55 +156,45 @@ public class TilesView extends View {
 
     public void redrawLine(int currentIndex) {
         ArrayList<Integer> nextIndexes = new ArrayList<>();
-        //должен быть более эффективный алгоритм
-        //добавть else чтобы исключить излишнюю проверку условий
         if (currentIndex == 0) {
             nextIndexes.add(currentIndex + 1);
             nextIndexes.add(currentIndex + 4);
         }
-
-        if (currentIndex > 0 && currentIndex < 3) {
+        else if (currentIndex > 0 && currentIndex < 3) {
             nextIndexes.add(currentIndex + 1);
             nextIndexes.add(currentIndex - 1);
             nextIndexes.add(currentIndex + 4);
         }
-
-        if (currentIndex > 12 && currentIndex < 15) {
+        else if (currentIndex > 12 && currentIndex < 15) {
             nextIndexes.add(currentIndex + 1);
             nextIndexes.add(currentIndex - 1);
             nextIndexes.add(currentIndex - 4);
         }
-
-        if (currentIndex == 3) {
+        else if (currentIndex == 3) {
             nextIndexes.add(currentIndex - 1);
             nextIndexes.add(currentIndex + 4);
         }
-
-        if (currentIndex > 4 && currentIndex < 7 || currentIndex > 8 && currentIndex < 11) {
+        else if (currentIndex > 4 && currentIndex < 7 || currentIndex > 8 && currentIndex < 11) {
             nextIndexes.add(currentIndex + 1);
             nextIndexes.add(currentIndex - 1);
             nextIndexes.add(currentIndex + 4);
             nextIndexes.add(currentIndex - 4);
         }
-
-        if (currentIndex == 4 || currentIndex == 8) {
+        else if (currentIndex == 4 || currentIndex == 8) {
             nextIndexes.add(currentIndex + 4);
             nextIndexes.add(currentIndex - 4);
             nextIndexes.add(currentIndex + 1);
         }
-
-        if (currentIndex == 7 || currentIndex == 11) {
+        else if (currentIndex == 7 || currentIndex == 11) {
             nextIndexes.add(currentIndex + 4);
             nextIndexes.add(currentIndex - 4);
             nextIndexes.add(currentIndex - 1);
         }
-
-        if (currentIndex == 12) {
+        else if (currentIndex == 12) {
             nextIndexes.add(currentIndex + 1);
             nextIndexes.add(currentIndex - 4);
         }
-
-        if (currentIndex == 15) {
+        else if (currentIndex == 15) {
             nextIndexes.add(currentIndex - 1);
             nextIndexes.add(currentIndex - 4);
         }
@@ -224,10 +203,10 @@ public class TilesView extends View {
             if (cards.get(n).color == colors.get(0)) {
                 nextColor = 1;
             }
-            if (cards.get(n).color == colors.get(1)) {
+            else if (cards.get(n).color == colors.get(1)) {
                 nextColor = 2;
             }
-            if (cards.get(n).color == colors.get(2)) {
+            else if (cards.get(n).color == colors.get(2)) {
                 nextColor = 0;
             }
             cards.get(n).color = colors.get(nextColor);
